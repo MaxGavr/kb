@@ -1,0 +1,11 @@
+lib_component_ui_menu_search_book_by_time_period
+=> nrel_main_idtf:
+	[Компонент библиотеки. Команда пользовательского интерфейса поиска книг, изданных в указанный период]
+	(* <- lang_ru;; *);
+	[Library component. User interface command of search for all books published in the specified time period]
+	(* <- lang_en;; *);
+
+<- library_of_platform_independent_reusable_components;
+<- library_of_atomic_reusable_components;;
+
+lib_component_ui_menu_search_book_by_time_period = [*^"file://ui_menu_search_book_by_time_period.scsi"*];;

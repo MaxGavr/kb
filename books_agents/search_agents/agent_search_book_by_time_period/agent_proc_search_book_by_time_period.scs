@@ -1,0 +1,170 @@
+agent_proc_search_book_by_time_period
+=> nrel_main_idtf:
+    [агентная scp-программа поиска книг, изданных в указанный период] (*<-lang_ru;;*);
+    [agent scp-program of searching books, published in the specified period of time] (*<-lang_en;;*);
+    <- agent_scp_program;;
+
+scp_program -> agent_proc_search_book_by_time_period (*
+
+    -> rrel_params: ... (*
+        -> rrel_1: rrel_in: .._event;;
+        -> rrel_2: rrel_in: .._input_arc;;
+    *);;
+
+    -> rrel_operators: ... (*
+
+        -> rrel_init: ..agent_proc_operator_get_question (*
+            <- searchElStr3;;
+
+            -> rrel_1: rrel_assign: rrel_scp_var: ...;;
+            -> rrel_2: rrel_fixed: rrel_scp_var: .._input_arc;;
+            -> rrel_3: rrel_assign: rrel_scp_var: .._question;;
+
+            => nrel_goto: ..agent_proc_operator_check_question_type;;
+        *);;
+
+        -> ..agent_proc_operator_check_question_type (*
+            <- searchElStr3;;
+
+            -> rrel_1: rrel_fixed: rrel_scp_const: question_search_book_by_time_period;;
+            -> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: ...;;
+            -> rrel_3: rrel_fixed: rrel_scp_var: .._question;;
+
+            => nrel_then: ..agent_proc_operator_get_params;;
+            => nrel_else: ..agent_proc_operator_return;;
+        *);;
+
+        -> ..agent_proc_operator_get_params (*
+            <- searchElStr3;;
+
+            -> rrel_1: rrel_fixed: rrel_scp_var: .._question;;
+            -> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: ...;;
+            -> rrel_3: rrel_assign: rrel_scp_var: .._input_params;;
+
+            => nrel_then: ..agent_proc_operator_get_param1;;
+            => nrel_else: ..agent_proc_operator_return;;
+        *);;
+
+        -> ..agent_proc_operator_get_param1 (* 
+            <- searchElStr5;;
+
+            -> rrel_1: rrel_fixed: rrel_scp_var: .._input_params;;
+            -> rrel_2: rrel_assign: rrel_scp_var: ...;;
+            -> rrel_3: rrel_assign: rrel_scp_var: .._first_date;;
+            -> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var: ...;;
+            -> rrel_5: rrel_fixed: rrel_scp_const: rrel_1;;
+    
+            => nrel_then: ..agent_proc_operator_print_param1;;
+            => nrel_else: ..agent_proc_operator_return;;
+        *);;
+
+        -> ..agent_proc_operator_print_param1 (*
+            <- printNl;;
+
+            -> rrel_1: rrel_fixed: rrel_scp_var: .._first_date;;
+
+            => nrel_goto: ..agent_proc_operator_get_param2;;
+        *);;
+
+        -> ..agent_proc_operator_get_param2 (* 
+            <- searchElStr5;;
+
+            -> rrel_1: rrel_fixed: rrel_scp_var: .._input_params;;
+            -> rrel_2: rrel_assign: rrel_scp_var: ...;;
+            -> rrel_3: rrel_assign: rrel_scp_var: .._second_date;;
+            -> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var: ...;;
+            -> rrel_5: rrel_fixed: rrel_scp_const: rrel_2;;
+    
+            => nrel_then: ..agent_proc_operator_print_param2;;
+            => nrel_else: ..agent_proc_operator_return;;
+        *);;
+
+        -> ..agent_proc_operator_print_param2 (*
+            <- printNl;;
+
+            -> rrel_1: rrel_fixed: rrel_scp_var: .._second_date;;
+
+            => nrel_goto: ..agent_proc_operator_generate_answer;;
+        *);;
+
+        -> ..agent_proc_operator_generate_answer (*
+            <- genEl;;
+
+            -> rrel_1: rrel_assign: rrel_const: rrel_node: rrel_scp_var: .._answer;;
+
+            => nrel_goto: ..agent_proc_operator_call_seach_by_time_period;;
+        *);;
+
+        -> ..agent_proc_operator_call_seach_by_time_period (*
+            <- call;;
+
+            -> rrel_1: rrel_fixed: rrel_scp_const: proc_search_book_by_time_period;;
+            -> rrel_2: rrel_fixed: rrel_scp_const: .. 
+            (*
+                    -> rrel_1: rrel_fixed: rrel_scp_var: .._first_date;;
+                    -> rrel_2: rrel_fixed: rrel_scp_var: .._second_date;;
+
+                    -> rrel_3: rrel_assign: rrel_scp_var: .._found_books;;
+            *);;
+            -> rrel_3: rrel_assign: rrel_scp_var: .._descr;;
+
+            => nrel_goto: ..agent_proc_operator_call_wait_return;;
+        *);;
+
+        -> ..agent_proc_operator_call_wait_return (*
+            <- waitReturn;;
+
+            -> rrel_1: rrel_fixed: rrel_scp_var: .._descr;;
+
+            => nrel_goto: ..agent_proc_operator_add_books_to_answer;;
+        *);;
+
+        -> ..agent_proc_operator_add_books_to_answer (*
+            <- searchSetStr3;;
+
+            -> rrel_1: rrel_fixed: rrel_scp_var: .._found_books;;
+            -> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: ...;;
+            -> rrel_3: rrel_assign: rrel_node: rrel_scp_var: .._found_book;;
+
+            -> rrel_set_3: rrel_fixed: rrel_scp_var: .._answer;;
+
+            => nrel_then: ..agent_proc_operator_generate_answer_relation;; 
+            => nrel_else: ..agent_proc_operator_generate_no_books_answer;; 
+        *);;
+
+        -> ..agent_proc_operator_generate_no_books_answer (*
+            <- contAssign;;
+
+            -> rrel_1: rrel_assign: rrel_scp_var: .._no_books_answer;;
+            -> rrel_2: rrel_fixed: rrel_scp_const: [Sorry! There are no books.];;
+
+            => nrel_goto: ..agent_proc_operator_add_no_books_answer;; 
+        *);;
+
+        -> ..agent_proc_operator_add_no_books_answer (*
+            <- genElStr3;;
+
+            -> rrel_1: rrel_fixed: rrel_scp_var: .._answer;;
+            -> rrel_2: rrel_assign: rrel_pos_const_perm: rrel_scp_var: ...;;
+            -> rrel_3: rrel_fixed: rrel_scp_var: .._no_books_answer;;
+
+            => nrel_goto: ..agent_proc_operator_generate_answer_relation;;
+        *);;
+
+        -> ..agent_proc_operator_generate_answer_relation (*
+            <- genElStr5;;
+
+            -> rrel_1: rrel_fixed: rrel_scp_var: .._question;;
+            -> rrel_2: rrel_assign: rrel_const: rrel_common: rrel_scp_var: ...;;
+            -> rrel_3: rrel_fixed: rrel_scp_var: .._answer;;
+            -> rrel_4: rrel_assign: rrel_pos_const_perm: rrel_scp_var: ...;;
+            -> rrel_5: rrel_fixed: rrel_scp_const: nrel_answer;;
+
+            => nrel_goto: ..agent_proc_operator_return;;
+        *);;
+
+        -> ..agent_proc_operator_return (*
+            <- return;;
+        *);;
+    *);;
+*);;

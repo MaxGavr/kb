@@ -1,0 +1,37 @@
+ui_menu_search_book_by_time_period
+<- ui_user_command_class_atom;
+   ui_user_command_class_view_kb;
+   ui_one_argument_command_class;;
+
+ui_menu_search_book_by_time_period 
+=> nrel_main_idtf: 
+	[Какие книги изданы в указанный период?] 
+	(* <- lang_ru;; *);
+=> nrel_idtf: 
+	[Поиск книг, изданных в указанный период] 
+	(* <- lang_ru;; *);;
+
+ui_menu_search_book_by_time_period 
+=> nrel_main_idtf:
+	[Which books were published in the given time period?] 
+	(* <- lang_en;; *);
+=> nrel_idtf:
+	[Search for all books published in th specified time period] 
+	(* <- lang_en;; *);;
+
+ui_menu_search_book_by_time_period => ui_nrel_command_template:
+	[*
+		question_search_book_by_time_period _-> ._question_search_book_by_time_period_instance
+			(*
+				_-> ui_arg_1;;				
+			*);;
+		._question_search_book_by_time_period_instance _<- question;;
+	*];;
+
+ui_menu_search_book_by_time_period
+=> ui_nrel_command_lang_template:
+	[Какие книги изданы в указанный период $ui_arg_1]
+	(* <- lang_ru;; *);
+=> ui_nrel_command_lang_template:
+	[Which books were published in the time period $ui_arg_1]
+	(* <- lang_en;; *);;

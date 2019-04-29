@@ -1,0 +1,30 @@
+lib_component_agent_search_book_by_time_period
+=> nrel_main_idtf:
+	[Компонент библиотеки. sc-агент поиска книг, изданных в указанный период]
+		(* <- lang_ru;; *);
+
+<- library_of_platform_independent_reusable_components; 
+<- library_of_atomic_reusable_components;
+
+=> nrel_attendant_component: 
+	lib_component_ui_menu_search_book_by_time_period; 
+
+<- key_sc_element:
+	...
+	(*
+	<- explanation;;
+	<= nrel_sc_text_translation:
+		...
+		(*
+		-> rrel_example:
+			[Задачей sc-агента поиска книг, изданных в указанный период, является поиск всех книг, год издания которых входит в указанный период];;
+		*);;
+	*);;
+
+question_search_book_by_time_period
+<- sc_node_not_relation;
+=> nrel_main_idtf:
+ 	[действие. найти книги заданного периода]
+		(* <- lang_ru;; *);
+	[action. find books of certain period of time]
+		(* <- lang_en;;	*);;
